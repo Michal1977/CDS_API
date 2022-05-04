@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Tu dodajemy cd i widzimy listę</title>
+    <style>
+        table, th, tr, td {border: 1px solid black;}
+    </style>
+</head>
+
+<h2>Płytoteka</h2>
+<div>
+    <h2> Szukaj: </h2>
+    <form method="POST" action="/cd/szukaj/">
+        {{ findForm.hidden_tag() }}
+        {% for field in findForm %}
+            {% if field.widget.input_type != 'hidden' %}
+                {{ field }}
+            {% endif %}
+        {% endfor %}
+        <input type="submit" value="Szukaj">
+    </form>
+</div>
+<table>
+    <thead>
+    <th>Nazwa zespołu</th>
+    <th>Tytuł płyty</th>
+    <th>Rok wydania</th>
+    <th></th>
+    </thead>
+{% for cd in cds %}
+    <tr>
+        <td><a href="/cd/{{ cd.id }}">{{ cd.name }}</a></td>
+        <td>{{ cd.title }}</td>
+        <td>{{ cd.year }}</td>
+        <td>
+            <form method="POST" action="/cd/delete/">
+                <input type="hidden" id="id" name="id" value="{{ cd.id }}">
+                <input type="submit" value="Usuń">
+            </form>
+            </td>
+    </tr>
+{% endfor %}
+</table>
+<div>
+    <h2> Dodaj nową płytę: </h2>
+    <form method="POST" action="/cd/">
+        {{ form.hidden_tag() }}
+        <table>
+            {% for field in form %}
+                {% if field.widget.input_type != 'hidden' and field.label != 'id' %}
+                    <tr>
+                        <th>{{ field.label }} {% if field.flags.required %}*{% endif %}</th>
+                        <td>{{ field }}</td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+        </table>
+        <input type="submit" value="Dodaj">
+    </form>
+</div>
+
+
+
+</body>
+</html>

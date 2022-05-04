@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Opis CD</title>
+</head>
+<body>
+    <a href="/cd/">Wróć do listy płyt</a>
+    <h2> Opis </h2>
+    <form method="POST" action="/cd/{{ cd_id }}/">
+        {{ form.hidden_tag() }}
+        <table>
+            {% for field in form if field.widget.input_type != 'hidden' %}
+                <tr>
+                    <th>{{ field.label }} {% if field.flags.required %}*{% endif %}</th>
+                    <td>{{ field }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+        <input type="submit" value="Aktualizuj">
+    </form>
+</body>
+</html>
